@@ -39,7 +39,7 @@ namespace NBug.Tests.Integration
 			// This is only valid with UIMode = none;
 			Settings.ExitApplicationImmediately = false;
 			Settings.UIMode = UIMode.None;
-			Assert.Equal(new BugReport().Report(new Exception(), ExceptionThread.Main), ExecutionFlow.ContinueExecution);
+			Assert.Equal(ExecutionFlow.ContinueExecution, new BugReport().Report(new Exception(), ExceptionThread.Main));
 		}
 
 		[Fact]
@@ -48,7 +48,7 @@ namespace NBug.Tests.Integration
 			// This is only valid with UIMode = none;
 			Settings.ExitApplicationImmediately = true;
 			Settings.UIMode = UIMode.None;
-			Assert.Equal(new BugReport().Report(new Exception(), ExceptionThread.Main), ExecutionFlow.BreakExecution);
+			Assert.Equal(ExecutionFlow.BreakExecution, new BugReport().Report(new Exception(), ExceptionThread.Main));
 		}
 
 		[Fact]
@@ -82,8 +82,8 @@ namespace NBug.Tests.Integration
 					category = c;
 				};
 			Logger.Info("Testing logger info message");
-			Assert.Equal(message, "Testing logger info message");
-			Assert.Equal(category, LoggerCategory.NBugInfo);
+			Assert.Equal("Testing logger info message", message);
+			Assert.Equal(LoggerCategory.NBugInfo, category);
 		}
 
 		[Fact]
@@ -106,7 +106,7 @@ namespace NBug.Tests.Integration
 		{
 			Settings.MiniDumpType = MiniDumpType.Full;
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
@@ -116,7 +116,7 @@ namespace NBug.Tests.Integration
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]
@@ -124,7 +124,7 @@ namespace NBug.Tests.Integration
 		{
 			Settings.MiniDumpType = MiniDumpType.None;
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
@@ -134,7 +134,7 @@ namespace NBug.Tests.Integration
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]
@@ -142,7 +142,7 @@ namespace NBug.Tests.Integration
 		{
 			Settings.MiniDumpType = MiniDumpType.Normal;
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
@@ -152,7 +152,7 @@ namespace NBug.Tests.Integration
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]
@@ -160,7 +160,7 @@ namespace NBug.Tests.Integration
 		{
 			Settings.MiniDumpType = MiniDumpType.Tiny;
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
@@ -170,7 +170,7 @@ namespace NBug.Tests.Integration
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]
@@ -242,17 +242,17 @@ namespace NBug.Tests.Integration
 		{
 			Settings.StoragePath = StoragePath.CurrentDirectory;
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
 			{
 				Assert.NotNull(stream);
-				Assert.True(storer.FilePath.Contains(Path.GetDirectoryName(Settings.EntryAssembly.Location)));
+				Assert.Contains(Path.GetDirectoryName(Settings.EntryAssembly.Location), storer.FilePath);
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]
@@ -260,17 +260,17 @@ namespace NBug.Tests.Integration
 		{
 			Settings.StoragePath = "C:\\";
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
 			{
 				Assert.NotNull(stream);
-				Assert.True(storer.FilePath.Contains("C:\\"));
+				Assert.Contains("C:\\", storer.FilePath);
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]
@@ -278,18 +278,18 @@ namespace NBug.Tests.Integration
 		{
 			Settings.StoragePath = StoragePath.IsolatedStorage;
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
 			{
 				Assert.NotNull(stream);
 				var filePath = stream.GetType().GetField("m_FullPath", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(stream).ToString();
-				Assert.True(filePath.Contains("IsolatedStorage"));
+				Assert.Contains("IsolatedStorage", filePath);
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]
@@ -297,17 +297,17 @@ namespace NBug.Tests.Integration
 		{
 			Settings.StoragePath = StoragePath.WindowsTemp;
 			new BugReport().Report(new Exception(), ExceptionThread.Main);
-			Assert.Equal(Storer.GetReportCount(), 1);
+			Assert.Equal(1, Storer.GetReportCount());
 
 			using (var storer = new Storer())
 			using (var stream = storer.GetFirstReportFile())
 			{
 				Assert.NotNull(stream);
-				Assert.True(storer.FilePath.Contains(Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name })));
+				Assert.Contains(Path.Combine(new[] { Path.GetTempPath(), Settings.EntryAssembly.GetName().Name }), storer.FilePath);
 				storer.DeleteCurrentReportFile();
 			}
 
-			Assert.Equal(Storer.GetReportCount(), 0);
+			Assert.Equal(0, Storer.GetReportCount());
 		}
 
 		[Fact]

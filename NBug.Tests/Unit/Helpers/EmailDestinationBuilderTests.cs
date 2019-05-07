@@ -305,11 +305,11 @@ namespace NBug.Tests.Unit.Helpers
       // Assert
       Assert.Equal("bar@test.com", mail.From);
       Assert.Equal("foo@test.com,another@test.com", mail.To);
-      Assert.Equal(true, mail.UseAttachment);
+      Assert.True(mail.UseAttachment);
       Assert.Equal(ServerName, mail.SmtpServer);
-      Assert.Equal(true, mail.UseSsl);
+      Assert.True(mail.UseSsl);
       Assert.Equal(465, mail.Port);
-      Assert.Equal(false, mail.UseAuthentication);
+      Assert.False(mail.UseAuthentication);
     }
   }
 }

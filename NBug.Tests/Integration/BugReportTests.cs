@@ -18,14 +18,14 @@ namespace NBug.Tests.Integration
 	{
 		private ReportFixture report;
 
-		[Fact]
+        [Fact]
 		public void GenerateBugReport()
 		{
-			Assert.Equal(new BugReport().Report(new DummyArgumentException(), ExceptionThread.UI_WinForms), ExecutionFlow.BreakExecution);
+			Assert.Equal(ExecutionFlow.BreakExecution, new BugReport().Report(new DummyArgumentException(), ExceptionThread.UI_WinForms));
 
 			this.report.VerifyAndDeleteCompressedReportFile();
 		}
-
+        
 		public void SetFixture(SettingsFixture settings)
 		{
 			settings.InitializeStandardSettings();
