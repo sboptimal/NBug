@@ -44,7 +44,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <Product></Product>
-    <AssemblyOriginatorKeyFile>C:\Optimal\Source\Github\dotnet\NBug\Signing.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\Signing.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".hgignore" />

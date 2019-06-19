@@ -28,7 +28,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/sboptimal/NBug</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <AssemblyOriginatorKeyFile>C:\Optimal\Source\Github\dotnet\NBug\Signing.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\Signing.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".hgignore" />
